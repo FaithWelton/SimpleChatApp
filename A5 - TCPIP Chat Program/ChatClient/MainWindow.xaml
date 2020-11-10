@@ -26,30 +26,21 @@
 
 
             <Grid>
-                <!-- IP Address Input -->
-                <Label Content="IP Address:" Height="28" Width="110" HorizontalAlignment="Left" Margin="370,10,0,0" Name="IPAddressInput" VerticalAlignment="Top" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="370,38,0,0" VerticalAlignment="Top" Width="110" Name="IPInput" />
-                
-                <!-- Connect/Disconnect -->
-                <Button Content="CONNECT" Height="25" HorizontalAlignment="Left" Margin="370,79,0,0" Name="connect" VerticalAlignment="Top" Width="110" Click="connect_Click"/>
-                <Button Content="DISCONNECT" Height="25" HorizontalAlignment="Left" Margin="370,109,0,0" Name="disconnect" VerticalAlignment="Top" Width="110" Click="disconnect_Click"/>
-
                 <!-- Display Name Input -->
-                <Label Content="Display Name:" Height="28" HorizontalAlignment="Left" Margin="370,151,0,0" Name="displayName" VerticalAlignment="Top" Width="110" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="370,179,0,0" Name="displayNameInput" VerticalAlignment="Top" Width="110" />
+                <Label Content="Display Name:" Height="28" HorizontalAlignment="Left" Margin="370,10,0,0" Name="displayName" VerticalAlignment="Top" Width="110" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="370,38,0,0" Name="displayNameInput" VerticalAlignment="Top" Width="110" />
 
-                <!-- Message Colour Changer -->
-                <Label Content="Text Colour:" Height="28" HorizontalAlignment="Left" Margin="370,210,0,0" Name="textColour" VerticalAlignment="Top" Width="110" />
-                <ComboBox Height="25" Width="110" HorizontalAlignment="Left" Margin="370,238,0,312" SelectionChanged="ComboBox_SelectionChanged">
-                    <ComboBoxItem IsSelected="true">Black</ComboBoxItem>
-                    <ComboBoxItem>Green</ComboBoxItem>
-                    <ComboBoxItem>Blue</ComboBoxItem>
-                    <ComboBoxItem>Red</ComboBoxItem>
-                </ComboBox>
+                <!-- IP Address Input -->
+                <Label Content="IP Address:" Height="28" Width="110" HorizontalAlignment="Left" Margin="370,76,0,0" Name="IPAddressInput" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="370,104,0,0" VerticalAlignment="Top" Width="110" Name="IPInput" />
+
+                <!-- Connect/Disconnect -->
+                <Button Content="CONNECT" Height="25" HorizontalAlignment="Left" Margin="370,151,0,0" Name="connect" VerticalAlignment="Top" Width="110" Click="connect_Click"/>
+                <Button Content="DISCONNECT" Height="25" HorizontalAlignment="Left" Margin="370,179,0,0" Name="disconnect" VerticalAlignment="Top" Width="110" Click="disconnect_Click"/>
 
                 <!-- Users Online -->
-                <Label Content="Users Online:" Height="28" HorizontalAlignment="Left" Margin="370,291,0,0" Name="usersOnline" VerticalAlignment="Top" Width="110" />
-                <TextBox Height="141" Width="110" HorizontalAlignment="Left" Margin="370,319,0,0" Name="usersOnlineDisplay" VerticalAlignment="Top" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+                <Label Content="Users Online:" Height="28" HorizontalAlignment="Left" Margin="370,250,0,0" Name="usersOnline" VerticalAlignment="Top" Width="110" />
+                <TextBox Height="182" Width="110" HorizontalAlignment="Left" Margin="370,278,0,0" Name="usersOnlineDisplay" VerticalAlignment="Top" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
 
                 <!-- Chat Box -->
                 <TextBox Height="450" HorizontalAlignment="Left" Margin="10,10,0,0" Name="chatBox" VerticalAlignment="Top" Width="350" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" AcceptsReturn="True"/>

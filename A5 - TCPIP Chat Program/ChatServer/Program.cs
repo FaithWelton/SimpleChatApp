@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
@@ -18,17 +15,26 @@ namespace ChatServer
         static void Main(string[] args)
         {
             int count = 1;
+            List<string> onlineUsers = new List<string>();
 
             TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
             Console.WriteLine("Server Running...");
 
-
             while (true)
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
                 lock (_lock) list_clients.Add(count, client);
-                Console.WriteLine("Someone Connected!");
+
+                NetworkStream nameStream = client.GetStream();
+                byte[] nameBuffer = new byte[1024];
+                int nameByte_count = nameStream.Read(nameBuffer, 0, nameBuffer.Length);
+                string userName = Encoding.ASCII.GetString(nameBuffer, 0, nameByte_count);
+
+                // Add each user to the Online Users list
+                onlineUsers.Add(userName);
+
+                Console.WriteLine(userName + " has connected!");
 
                 Thread t = new Thread(handle_clients);
                 t.Start(count);
@@ -56,12 +62,9 @@ namespace ChatServer
 
                 string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
                 broadcast(data);
-                Console.WriteLine("** LOG ** : " + data);
             }
 
             lock (_lock) list_clients.Remove(id);
-
-
             client.Client.Shutdown(SocketShutdown.Both);
             client.Close();
         }

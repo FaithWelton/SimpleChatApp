@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ChatClient
 {
@@ -44,21 +34,48 @@ namespace ChatClient
 
         private void connect_Click(object sender, RoutedEventArgs e)
         {
+            // Get users display name
+            inputUserName = displayNameInput.Text;
+
+            NetworkStream nameStream;
+
             inputIPAddress = IPInput.Text;
-            IPAddress ip = IPAddress.Parse(inputIPAddress);
-            int port = 5000;
-            client = new TcpClient();
-            client.Connect(ip, port);
-            stream = client.GetStream();
-            thread = new Thread(o => ReceiveData((TcpClient)o));
-
-            thread.Start(client);
-
-            string s;
-            while (!string.IsNullOrEmpty((s = Console.ReadLine())))
+            
+            if (String.IsNullOrEmpty(displayNameInput.Text))
             {
-                byte[] buffer = Encoding.ASCII.GetBytes(s);
-                stream.Write(buffer, 0, buffer.Length);
+                this.Dispatcher.Invoke(() =>
+                {
+                    chatBox.Text += "ERROR: Please enter a display name!\n";
+                });
+            }
+            else
+            {
+                try
+                {
+                    IPAddress ip = IPAddress.Parse(inputIPAddress);
+                    int port = 5000;
+
+                    client = new TcpClient();
+                    client.Connect(ip, port);
+                    stream = client.GetStream();
+                    thread = new Thread(o => ReceiveData((TcpClient)o));
+
+                    thread.Start(client);
+
+                    // Send the display name to Server
+                    nameStream = client.GetStream();
+                    byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(inputUserName);
+
+                    //---send the text---
+                    nameStream.Write(bytesToSend, 0, bytesToSend.Length);
+                }
+                catch
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        chatBox.Text += "ERROR: No valid IP Address Specified - Cannot connect to Server!\n";
+                    });
+                }
             }
         }
 
@@ -68,25 +85,28 @@ namespace ChatClient
             byte[] receivedBytes = new byte[1024];
             int byte_count;
 
-            while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+            try
             {
-                Console.WriteLine("Server: " + Encoding.ASCII.GetString(receivedBytes, 0, byte_count) + "\n");
+                while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        chatBox.Text += Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
+                    });
+                }
+            }
+            catch
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    chatBox.Text += "Connection to the server has been lost!";
+                });
             }
         }
 
         private void disconnect_Click(object sender, RoutedEventArgs e)
         {
-            client.Client.Shutdown(SocketShutdown.Send); // ?
-            thread.Join();
-            stream.Close();
-            client.Close();
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (Selected colour is ... ) {
-            // Change userName to that colour
-            //}
+            // message to server to close client
         }
 
         string inputMessage;
@@ -100,15 +120,14 @@ namespace ChatClient
             // Get text from messagebox
             inputMessage = messageText.Text;
 
-            // Display message in chatbox
-            chatBox.Text += inputUserName + ": " + inputMessage + "\n";
-
             // Send a message log to Server
             stream = client.GetStream();
             byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(inputUserName + ": " + inputMessage);
 
             //---send the text---
             stream.Write(bytesToSend, 0, bytesToSend.Length);
+
+            messageText.Text = String.Empty;
         }
 
         private void server_StatusUpdate(object sender, RoutedEventArgs e)
