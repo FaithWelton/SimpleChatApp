@@ -1,0 +1,7 @@
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\bin\Debug\ChatServer.exe.config
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\bin\Debug\ChatServer.exe
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\bin\Debug\ChatServer.pdb
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\obj\Debug\ChatServer.csprojAssemblyReference.cache
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\obj\Debug\ChatServer.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\obj\Debug\ChatServer.exe
+\\Mac\Home\Desktop\A5 - TCPIP Chat Program\ChatServer\obj\Debug\ChatServer.pdb
